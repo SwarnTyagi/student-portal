@@ -15,9 +15,10 @@ import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import ListItem from "@mui/material/ListItem";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
-import InboxIcon from "@mui/icons-material/MoveToInbox";
-import MailIcon from "@mui/icons-material/Mail";
+import BorderColorIcon from "@mui/icons-material/BorderColor";
+import LibraryBooksIcon from "@mui/icons-material/LibraryBooks";
 
+import { Link } from "react-router-dom";
 const drawerWidth = 240;
 
 const Main = styled("main", { shouldForwardProp: (prop) => prop !== "open" })(
@@ -65,7 +66,7 @@ const DrawerHeader = styled("div")(({ theme }) => ({
   justifyContent: "flex-end",
 }));
 
-export default function PersistentDrawerLeft() {
+export default function PersistentDrawerLeft(props) {
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
 
@@ -119,31 +120,28 @@ export default function PersistentDrawerLeft() {
           </IconButton>
         </DrawerHeader>
         <Divider />
-        <List>
-          {["Inbox", "Starred", "Send email", "Drafts"].map((text, index) => (
-            <ListItem button key={text}>
-              <ListItemIcon>
-                {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-              </ListItemIcon>
-              <ListItemText primary={text} />
-            </ListItem>
-          ))}
-        </List>
         <Divider />
         <List>
-          {["All mail", "Trash", "Spam"].map((text, index) => (
-            <ListItem button key={text}>
-              <ListItemIcon>
-                {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-              </ListItemIcon>
-              <ListItemText primary={text} />
-            </ListItem>
-          ))}
+          {[{ title: "Students", icon: BorderColorIcon }].map(
+            (listItem, index) => {
+              const Icon = listItem.icon;
+              return (
+                <ListItem button key={listItem.title}>
+                  <ListItemIcon>
+                    <Icon />
+                  </ListItemIcon>
+                  <Link to={"/students"}>
+                    <ListItemText primary={listItem.title} />
+                  </Link>
+                </ListItem>
+              );
+            }
+          )}
         </List>
       </Drawer>
       <Main open={open}>
         <DrawerHeader />
-        <Typography paragraph>Drawer Window</Typography>
+        <Typography paragraph>{props.children}</Typography>
       </Main>
     </Box>
   );
