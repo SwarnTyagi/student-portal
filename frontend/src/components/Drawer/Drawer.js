@@ -93,7 +93,7 @@ export default function PersistentDrawerLeft(props) {
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" noWrap component="div">
-            Persistent drawer
+            Student Portal
           </Typography>
         </Toolbar>
       </AppBar>
@@ -122,21 +122,22 @@ export default function PersistentDrawerLeft(props) {
         <Divider />
         <Divider />
         <List>
-          {[{ title: "Students", icon: BorderColorIcon,url:"Students" },{title:"Teachers", icon:LibraryBooksIcon, url:"Teachers"}].map(
-            (listItem, index) => {
-              const Icon = listItem.icon;
-              return (
-                <ListItem button key={listItem.title}>
-                  <ListItemIcon>
-                    <Icon />
-                  </ListItemIcon>
-                  <Link to={"/"+listItem.url}>
-                    <ListItemText primary={listItem.title} />
-                  </Link>
-                </ListItem>
-              );
-            }
-          )}
+          {[
+            { title: "Students", icon: BorderColorIcon, url: "Students" },
+            { title: "Teachers", icon: LibraryBooksIcon, url: "Teachers" },
+          ].map((listItem, index) => {
+            const Icon = listItem.icon;
+            return (
+              <ListItem button key={listItem.title}>
+                <ListItemIcon>
+                  <Icon />
+                </ListItemIcon>
+                <Link to={"/" + listItem.url}>
+                  <ListItemText primary={listItem.title} />
+                </Link>
+              </ListItem>
+            );
+          })}
         </List>
       </Drawer>
       <Main open={open}>
