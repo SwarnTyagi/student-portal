@@ -122,7 +122,7 @@ export default function PersistentDrawerLeft(props) {
         <Divider />
         <Divider />
         <List>
-          {[{ title: "Students", icon: BorderColorIcon }].map(
+          {[{ title: "Students", icon: BorderColorIcon,url:"Students" },{title:"Teachers", icon:LibraryBooksIcon, url:"Teachers"}].map(
             (listItem, index) => {
               const Icon = listItem.icon;
               return (
@@ -130,7 +130,7 @@ export default function PersistentDrawerLeft(props) {
                   <ListItemIcon>
                     <Icon />
                   </ListItemIcon>
-                  <Link to={"/students"}>
+                  <Link to={"/"+listItem.url}>
                     <ListItemText primary={listItem.title} />
                   </Link>
                 </ListItem>
