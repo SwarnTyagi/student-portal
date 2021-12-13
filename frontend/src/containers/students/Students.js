@@ -22,7 +22,7 @@ const Student = () => {
     navigate("/students/details", { state: data });
   };
   const onColumnClick = (e) => {
-    e.stopPropagation();
+    //e.stopPropagation();
   };
   return (
     <div>
