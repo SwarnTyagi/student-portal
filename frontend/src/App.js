@@ -11,6 +11,8 @@ import Teachers from "./containers/teachers/Teachers";
 
 import theme from "./customTheme";
 import Teacherlogin from "./containers/teachers/Teacherlogin";
+import StudentDetails from "./containers/students/StudentDetails";
+import TeacherDetails from "./containers/teachers/TeacherDetails";
 
 function App() {
   return (
@@ -24,6 +26,16 @@ function App() {
               path={"/teachers/login"}
               exact={true}
               element={<Teacherlogin />}
+            />
+            <Route
+              path={"/students/details"}
+              exact={true}
+              element={<StudentDetails />}
+            />
+            <Route
+              path={"/teachers/details"}
+              exact={true}
+              element={<TeacherDetails />}
             />
           </Routes>
         </Drawer>

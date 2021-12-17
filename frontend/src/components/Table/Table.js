@@ -42,8 +42,15 @@ const rows = [
   createData("Gingerbread", 356, 16.0, 49, 3.9),
 ];
 
-export default function CustomTable({ headerColumns, data }) {
-  console.log("headerColumns", headerColumns);
+export default function CustomTable({
+  headerColumns,
+  data,
+  onRowClick,
+  onColumnClick,
+}) {
+  const onTableRowClick = (row) => () => {
+    onRowClick(row);
+  };
   return (
     <TableContainer component={Paper}>
       <Table sx={{ minWidth: 700 }} aria-label="customized table">
@@ -56,7 +63,7 @@ export default function CustomTable({ headerColumns, data }) {
         </TableHead>
         <TableBody>
           {data.map((row) => (
-            <StyledTableRow key={row.name}>
+            <StyledTableRow key={row.name} onClick={onTableRowClick(row)}>
               {headerColumns.map((headerColumn) => {
                 return (
                   <StyledTableCell>{row[headerColumn.name]}</StyledTableCell>
