@@ -21,9 +21,7 @@ const Student = () => {
   const onClickStudent = (data) => {
     navigate("/students/details", { state: data });
   };
-  const onColumnClick = (e) => {
-    //e.stopPropagation();
-  };
+
   return (
     <div>
       Welcome To Students Page
@@ -31,7 +29,7 @@ const Student = () => {
         headerColumns={COLUMNS}
         data={DATA}
         onRowClick={onClickStudent}
-        onColumnClick={onColumnClick}
+        //onColumnClick={onColumnClick}
       />
     </div>
   );

@@ -66,9 +66,7 @@ export default function CustomTable({
             <StyledTableRow key={row.name} onClick={onTableRowClick(row)}>
               {headerColumns.map((headerColumn) => {
                 return (
-                  <StyledTableCell onClick={onColumnClick}>
-                    {row[headerColumn.name]}
-                  </StyledTableCell>
+                  <StyledTableCell>{row[headerColumn.name]}</StyledTableCell>
                 );
               })}
             </StyledTableRow>
