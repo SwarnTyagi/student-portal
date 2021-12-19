@@ -2,8 +2,11 @@ import React, { useState } from "react";
 import Table from "../../components/Table/Table";
 import { useNavigate } from "react-router-dom";
 import Button from "../../components/Button/Button";
-import Dialog from "../../components/Dialog/Dialog";
+import Form from "../../components/Form/Form";
 import TextField from "@mui/material/TextField";
+import Box from "@mui/material/Box";
+import Paper from "@mui/material/Paper";
+import Grid from "@mui/material/Grid";
 
 const COLUMN = [
   { name: "facultyID", title: "ID" },
@@ -51,7 +54,7 @@ const Teachers = () => {
     <div>
       Welcome to Teachers Page
       <Button onClick={onAdd} text={"ADD"} />
-      <Dialog
+      <Form
         content="This is my content"
         title="Teachers Information"
         okText="Confirm"
@@ -61,9 +64,17 @@ const Teachers = () => {
         onCancel={onCancel}
       >
         {" "}
-        <TextField />
-        <TextField />
-      </Dialog>
+        <Box sx={{ flexGrow: 1 }}>
+          <Grid container spacing={4}>
+            <Grid item xs={12} md={6}>
+              <TextField fullWidth />
+            </Grid>
+            <Grid item xs={12} md={6}>
+              <TextField fullWidth />
+            </Grid>
+          </Grid>
+        </Box>
+      </Form>
       <Table headerColumns={COLUMN} data={DATA_1} onRowClick={onClickTeacher} />
     </div>
   );

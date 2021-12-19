@@ -7,8 +7,17 @@ import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 
 export default function FormDialog(props) {
-  const { open, content, okText, cancelText, onOk, onCancel, children, title } =
-    props;
+  const {
+    open,
+    content,
+    okText,
+    dialogClass,
+    cancelText,
+    onOk,
+    onCancel,
+    children,
+    title,
+  } = props;
   const handleOnOk = () => {
     onOk && onOk();
   };
@@ -18,7 +27,11 @@ export default function FormDialog(props) {
 
   return (
     <div>
-      <Dialog open={open} onClose={handleOnCancel}>
+      <Dialog
+        open={open}
+        onClose={handleOnCancel}
+        classes={{ paper: dialogClass }}
+      >
         <DialogTitle>{title}</DialogTitle>
         <DialogContent>
           <DialogContentText>{content}</DialogContentText>
