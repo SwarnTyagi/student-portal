@@ -1,8 +1,9 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Table from "../../components/Table/Table";
 import { useNavigate } from "react-router-dom";
 import Button from "../../components/Button/Button";
 import Form from "./TeacherForm";
+import TeacherService from "../../services/TeacherService";
 
 const COLUMN = [
   { name: "facultyID", title: "ID" },
@@ -10,30 +11,18 @@ const COLUMN = [
   { name: "course", title: "Course" },
   { name: "rating", title: "Faculty Rating" },
 ];
-const DATA_1 = [
-  {
-    facultyID: "ECE-141",
-    name: "Dr Shraddha Kapoor",
-    course: "Digital Electronics",
-    rating: "5",
-  },
-  {
-    facultyID: "CSE-132",
-    name: "Dr Asha Malik",
-    course: "Automata Theory",
-    rating: "4",
-  },
-  {
-    facultyID: "ME-234",
-    name: "Dr Nishtha Chandel",
-    course: "Strength of Materials",
-    rating: "4",
-  },
-];
-
+const teacherSer = new TeacherService();
 const Teachers = () => {
   const navigate = useNavigate();
   const [isOpen, setIsOpen] = useState(false);
+  const [teacherData, setTeacherData] = useState([]);
+  useEffect(() => {
+    fetchTeachers();
+  }, []);
+  const fetchTeachers = async () => {
+    const { data } = await teacherSer.getTeachers();
+    setTeacherData(data);
+  };
   const onClickTeacher = (data) => {
     navigate("/teachers/details", { state: data });
   };
@@ -51,7 +40,11 @@ const Teachers = () => {
       Welcome to Teachers Page
       <Button onClick={onAdd} text={"ADD"} />
       <Form open={isOpen} onOk={onSubmit} onCancel={onCancel} />
-      <Table headerColumns={COLUMN} data={DATA_1} onRowClick={onClickTeacher} />
+      <Table
+        headerColumns={COLUMN}
+        data={teacherData}
+        onRowClick={onClickTeacher}
+      />
     </div>
   );
 };
