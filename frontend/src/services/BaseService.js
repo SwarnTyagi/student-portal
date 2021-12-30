@@ -12,9 +12,11 @@ class BaseService {
       }
 
       case "POST": {
+        _request = axios.post(finalUrl, body);
         break;
       }
       case "PUT": {
+        _request = axios.put(finalUrl, body);
         break;
       }
       case "DELETE": {

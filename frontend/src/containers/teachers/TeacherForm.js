@@ -15,6 +15,9 @@ export default function TeacherForm(props) {
   const { open, onOk, onCancel } = props;
   const [state, setState] = useState(DEFAULT_FIELDS);
   const { facultyID, course, name, rating } = state;
+  const onSubmitTeacher = () => {
+    onOk && onOk(state);
+  };
   const onChange = (name, value) => {
     setState((prevState) => {
       return {
@@ -32,7 +35,7 @@ export default function TeacherForm(props) {
         okText="Confirm"
         cancelText="Cancel"
         open={open}
-        onOk={onOk}
+        onOk={onSubmitTeacher}
         onCancel={onCancel}
       >
         {" "}

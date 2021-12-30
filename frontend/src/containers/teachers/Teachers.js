@@ -26,8 +26,11 @@ const Teachers = () => {
   const onClickTeacher = (data) => {
     navigate("/teachers/details", { state: data });
   };
-  const onSubmit = () => {
-    setIsOpen(false);
+  const onSubmit = (formData) => {
+    teacherSer.createTeacher(formData).then(() => {
+      setIsOpen(false);
+      fetchTeachers();
+    });
   };
   const onCancel = () => {
     setIsOpen(false);

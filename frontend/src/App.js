@@ -8,11 +8,13 @@ import Drawer from "./components/Drawer/Drawer";
 
 import Students from "./containers/students/Students";
 import Teachers from "./containers/teachers/Teachers";
+import Calendar from "./containers/calendar/AcademicPlan";
 
 import theme from "./customTheme";
 import Teacherlogin from "./containers/teachers/Teacherlogin";
 import StudentDetails from "./containers/students/StudentDetails";
 import TeacherDetails from "./containers/teachers/TeacherDetails";
+import AcademicPlan from "./containers/calendar/AcademicPlan";
 
 function App() {
   return (
@@ -22,6 +24,11 @@ function App() {
           <Routes>
             <Route path={"/students"} exact={true} element={<Students />} />
             <Route path={"/teachers"} exact={true} element={<Teachers />} />
+            <Route
+              path={"/academicplan"}
+              exact={true}
+              element={<AcademicPlan />}
+            />
             <Route
               path={"/teachers/login"}
               exact={true}
