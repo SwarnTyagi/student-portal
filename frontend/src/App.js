@@ -15,6 +15,8 @@ import Teacherlogin from "./containers/teachers/Teacherlogin";
 import StudentDetails from "./containers/students/StudentDetails";
 import TeacherDetails from "./containers/teachers/TeacherDetails";
 import AcademicPlan from "./containers/calendar/AcademicPlan";
+import Examination from "./containers/exams/Examination";
+import Results from "./containers/exams/Results";
 
 function App() {
   return (
@@ -43,6 +45,16 @@ function App() {
               path={"/teachers/details"}
               exact={true}
               element={<TeacherDetails />}
+            />
+            <Route
+              path={"/Examination"}
+              exact={true}
+              element={<Examination />}
+            />
+            <Route
+              path={"Examination/Results"}
+              exact={true}
+              element={<Results />}
             />
           </Routes>
         </Drawer>

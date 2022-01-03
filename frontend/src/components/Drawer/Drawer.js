@@ -18,6 +18,7 @@ import ListItemText from "@mui/material/ListItemText";
 import BorderColorIcon from "@mui/icons-material/BorderColor";
 import LibraryBooksIcon from "@mui/icons-material/LibraryBooks";
 import EventNoteIcon from "@mui/icons-material/EventNote";
+import HowToRegIcon from "@mui/icons-material/HowToReg";
 
 import { Link } from "react-router-dom";
 const drawerWidth = 240;
@@ -130,6 +131,11 @@ export default function PersistentDrawerLeft(props) {
               title: "Academic Plan",
               icon: EventNoteIcon,
               url: "AcademicPlan",
+            },
+            {
+              title: "Examination",
+              icon: HowToRegIcon,
+              url: "Examination",
             },
           ].map((listItem, index) => {
             const Icon = listItem.icon;
