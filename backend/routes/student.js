@@ -1,17 +1,12 @@
 let router = require("express").Router();
 
-router.get("/", function (req, res) {
-  res.json({
-    status: "API Works",
-    message: "Welcome to FirstRest API",
-  });
-});
-
 var studentController = require("./../controllers/studentController");
 
+router.route("/").get(studentController.index).post(studentController.add);
 router
-  .route("/student")
-  .get(studentController.index)
-  .post(studentController.add);
-
+  .route("/:student_id")
+  .get(studentController.view)
+  .patch(studentController.update)
+  .put(studentController.update)
+  .delete(studentController.delete);
 module.exports = router;
