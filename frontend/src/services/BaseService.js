@@ -2,7 +2,7 @@ import axios from "axios";
 class BaseService {
   request = (options) => {
     let _request = null;
-    let finalUrl = "https://61b4eb8b0e84b700173319fd.mockapi.io/api/v1";
+    let finalUrl = "http://localhost:8000";
     const { url, type = "GET", params, body, headers } = options;
     finalUrl = finalUrl + url;
     switch (type) {

@@ -21,7 +21,8 @@ const Teachers = () => {
   }, []);
   const fetchTeachers = async () => {
     const { data } = await teacherSer.getTeachers();
-    setTeacherData(data);
+    console.log("the teacher", data);
+    setTeacherData(data.data);
   };
   const onClickTeacher = (data) => {
     navigate("/teachers/details", { state: data });

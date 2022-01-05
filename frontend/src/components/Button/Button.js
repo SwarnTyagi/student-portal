@@ -1,9 +1,9 @@
 import MuiButton from "@mui/material/Button";
 const Button = (props) => {
-  const { onClick, text, variant = "contained" } = props;
+  const { onClick, text, variant = "contained", children } = props;
   return (
     <MuiButton onClick={onClick} variant={variant}>
-      {text}
+      {text || children}
     </MuiButton>
   );
 };
