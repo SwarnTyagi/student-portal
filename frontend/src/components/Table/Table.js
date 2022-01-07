@@ -7,6 +7,10 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
+import EditIcon from "@mui/icons-material/BorderColor";
+import DeleteIcon from "@mui/icons-material/DeleteForever";
+import { makeStyles } from "@mui/styles";
+import ExpandIcon from "@mui/icons-material/AssignmentReturned";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => {
   return {
@@ -41,15 +45,31 @@ const rows = [
   createData("Cupcake", 305, 3.7, 67, 4.3),
   createData("Gingerbread", 356, 16.0, 49, 3.9),
 ];
-
+const useStyles = makeStyles({
+  actionColumn: {
+    width: 100,
+    textAlign: "center",
+  },
+  actionWrapper: {
+    display: "flex",
+    justifyContent: "space-between",
+  },
+});
 export default function CustomTable({
   headerColumns,
   data,
   onRowClick,
   onColumnClick,
+  hasEditAccess = false,
+  onClickEdit,
+  hasActions = false,
+  hasDeleteAccess = false,
+  onClickDelete,
+  onClickExpand,
 }) {
+  const styles = useStyles();
   const onTableRowClick = (row) => () => {
-    onRowClick(row);
+    onRowClick && onRowClick(row);
   };
   return (
     <TableContainer component={Paper}>
@@ -57,8 +77,17 @@ export default function CustomTable({
         <TableHead>
           <TableRow>
             {headerColumns.map((headerColumn) => {
-              return <StyledTableCell>{headerColumn.title}</StyledTableCell>;
+              return (
+                <StyledTableCell style={headerColumn.style || {}}>
+                  {headerColumn.title}
+                </StyledTableCell>
+              );
             })}
+            {hasActions && (
+              <StyledTableCell className={styles.actionColumn}>
+                Actions
+              </StyledTableCell>
+            )}
           </TableRow>
         </TableHead>
         <TableBody>
@@ -69,10 +98,52 @@ export default function CustomTable({
                   <StyledTableCell>{row[headerColumn.name]}</StyledTableCell>
                 );
               })}
+              {hasActions && (
+                <StyledTableCell>
+                  <Actions
+                    row={row}
+                    hasEditAccess={hasEditAccess}
+                    onClickEdit={onClickEdit}
+                    hasDeleteAccess={hasDeleteAccess}
+                    onClickDelete={onClickDelete}
+                    onClickExpand={onClickExpand}
+                    actionWrapperClass={styles.actionWrapper}
+                  />
+                </StyledTableCell>
+              )}
             </StyledTableRow>
           ))}
         </TableBody>
       </Table>
     </TableContainer>
+  );
+}
+
+export function Actions(props) {
+  const {
+    hasEditAccess,
+    onClickEdit,
+    hasDeleteAccess,
+    onClickDelete,
+    onClickExpand,
+    actionWrapperClass,
+    hasExpandAccess = true,
+    row,
+  } = props;
+  const _onClickEdit = () => {
+    onClickEdit && onClickEdit(row);
+  };
+  const _onClickDelete = () => {
+    onClickDelete && onClickDelete(row);
+  };
+  const _onClickExpand = () => {
+    onClickExpand && onClickExpand(row);
+  };
+  return (
+    <div className={actionWrapperClass}>
+      {hasEditAccess ? <EditIcon onClick={_onClickEdit} /> : null}
+      {hasDeleteAccess ? <DeleteIcon onClick={_onClickDelete} /> : null}
+      {hasExpandAccess ? <ExpandIcon onClick={_onClickExpand} /> : null}
+    </div>
   );
 }

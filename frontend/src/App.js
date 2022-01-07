@@ -2,7 +2,7 @@ import "./App.css";
 
 import { ThemeProvider } from "@mui/material/styles";
 
-import { Route, Routes, useLocation } from "react-router-dom";
+import { Route, Routes, useLocation, useNavigate } from "react-router-dom";
 
 import Drawer from "./components/Drawer/Drawer";
 
@@ -18,11 +18,22 @@ import AcademicPlan from "./containers/calendar/AcademicPlan";
 import Examination from "./containers/exams/Examination";
 import Results from "./containers/exams/Results";
 import Login from "./containers/login/Login";
+import Register from "./containers/login/Register";
+import { getData } from "./utils/localStorageUtils";
+import { useEffect } from "react";
+import Dashboard from "./containers/dashboard/Dashboard";
 
 const UNAUTHORISED_URL = ["/login", "/register"];
 
 function App() {
   const location = useLocation();
+  const navigate = useNavigate();
+  useEffect(() => {
+    const token = getData("token");
+    if (!token) {
+      navigate("/login");
+    }
+  }, []);
   const isLoggedIn = !UNAUTHORISED_URL.includes(location.pathname);
   console.log("the location is", location);
   return (
@@ -31,6 +42,7 @@ function App() {
         {isLoggedIn ? (
           <Drawer>
             <Routes>
+              <Route path={"/home"} exact={true} element={<Dashboard />} />
               <Route path={"/students"} exact={true} element={<Students />} />
               <Route path={"/teachers"} exact={true} element={<Teachers />} />
               <Route
@@ -38,7 +50,6 @@ function App() {
                 exact={true}
                 element={<AcademicPlan />}
               />
-
               <Route
                 path={"/students/details"}
                 exact={true}
@@ -64,7 +75,7 @@ function App() {
         ) : (
           <Routes>
             <Route path={"/login"} exact={true} element={<Login />} />
-            <Route path={"/register"} exact={true} element={<Teacherlogin />} />
+            <Route path={"/register"} exact={true} element={<Register />} />
           </Routes>
         )}
       </ThemeProvider>

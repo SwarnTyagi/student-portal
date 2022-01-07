@@ -19,6 +19,7 @@ import BorderColorIcon from "@mui/icons-material/BorderColor";
 import LibraryBooksIcon from "@mui/icons-material/LibraryBooks";
 import EventNoteIcon from "@mui/icons-material/EventNote";
 import HowToRegIcon from "@mui/icons-material/HowToReg";
+import DashboardIcon from "@mui/icons-material/DashboardCustomize";
 
 import { Link } from "react-router-dom";
 const drawerWidth = 240;
@@ -94,7 +95,7 @@ export default function PersistentDrawerLeft(props) {
           >
             <MenuIcon />
           </IconButton>
-          <Typography variant="h6" noWrap component="div">
+          <Typography variant="h6" noWrap component="div" align="left">
             Student Portal
           </Typography>
         </Toolbar>
@@ -125,6 +126,11 @@ export default function PersistentDrawerLeft(props) {
         <Divider />
         <List>
           {[
+            {
+              title: "Dashboard",
+              icon: DashboardIcon,
+              url: "Home",
+            },
             { title: "Students", icon: BorderColorIcon, url: "Students" },
             { title: "Teachers", icon: LibraryBooksIcon, url: "Teachers" },
             {

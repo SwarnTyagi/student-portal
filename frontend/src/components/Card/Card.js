@@ -22,7 +22,7 @@ export default function OutlinedCard({
 }) {
   return (
     <Box sx={{ minWidth: 275 }}>
-      <Card variant="outlined">
+      <Card variant="outlined" sx>
         <CardContent>
           <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
             {header}

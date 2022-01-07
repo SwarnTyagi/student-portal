@@ -40,6 +40,7 @@ export default function Form(props) {
       ) : (
         <form>
           {children}
+          <br />
           <Button onClick={onOk}>{okText}</Button>
         </form>
       )}
