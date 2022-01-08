@@ -47,7 +47,7 @@ const rows = [
 ];
 const useStyles = makeStyles({
   actionColumn: {
-    width: 100,
+    width: 150,
     textAlign: "center",
   },
   actionWrapper: {

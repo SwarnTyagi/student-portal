@@ -5,6 +5,7 @@ import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
+import CardMedia from "@mui/material/CardMedia";
 
 const bull = (
   <Box
@@ -19,10 +20,22 @@ export default function OutlinedCard({
   body,
   buttonText,
   onClick,
+  imgComponent = "img",
+  imgHeight = "150",
+  image,
 }) {
   return (
     <Box sx={{ minWidth: 275 }}>
       <Card variant="outlined" sx>
+        {image && (
+          <CardMedia
+            component={imgComponent}
+            height={imgHeight}
+            sx={{ width: 258 }}
+            image={image}
+          />
+        )}
+
         <CardContent>
           <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
             {header}
@@ -33,9 +46,11 @@ export default function OutlinedCard({
           <Typography variant="body2">{footer}</Typography>
         </CardContent>
         <CardActions>
-          <Button size="small" onClick={onClick}>
-            {buttonText}
-          </Button>
+          {buttonText && (
+            <Button size="small" onClick={onClick}>
+              {buttonText}
+            </Button>
+          )}
         </CardActions>
       </Card>
     </Box>
