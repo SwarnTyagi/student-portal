@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useMemo, useEffect } from "react";
 import Form from "../../components/Form/Form";
 import TextField from "../../components/TextField/TextField";
 import Box from "@mui/material/Box";
@@ -12,9 +12,21 @@ const DEFAULT_FIELDS = {
 };
 
 export default function TeacherForm(props) {
-  const { open, onOk, onCancel } = props;
+  const { open, onOk, onCancel, teacher } = props;
   const [state, setState] = useState(DEFAULT_FIELDS);
   const { facultyID, course, name, rating } = state;
+
+  const teacherId = useMemo(() => {
+    return teacher._id;
+  }, [teacher._id]);
+
+  useEffect(() => {
+    if (teacherId) {
+      setState(teacher);
+    } else {
+      setState(DEFAULT_FIELDS);
+    }
+  }, [teacherId]);
   const onSubmitTeacher = () => {
     onOk && onOk(state);
   };

@@ -22,6 +22,8 @@ const studentService = new StudentService();
 const Student = () => {
   const [studentData, setStudentData] = useState([]);
   const [isOpen, setIsOpen] = useState(false);
+  const [currentStudent, setCurrentStudent] = useState(null);
+
   const navigate = useNavigate();
   useEffect(() => {
     fetchStudents();
@@ -34,7 +36,12 @@ const Student = () => {
     console.log("The students data is", data);
     setStudentData(data.data);
   };
-  const onEditStudent = () => {};
+  const onEditStudent = async ({ _id }) => {
+    const { data } = await studentService.getStudentById(_id);
+    console.log("The student is", data);
+    setCurrentStudent(data.data);
+    setIsOpen(true);
+  };
   const onDeleteStudent = async (data) => {
     await studentService.deleteStudent(data._id);
     fetchStudents();
@@ -42,11 +49,18 @@ const Student = () => {
   const onExpandStudent = (data) => {
     navigate("/students/details", { state: data });
   };
-  const onSubmitStudent = (formData) => {
-    studentService.createStudent(formData).then(() => {
+  const onSubmitStudent = async (formData) => {
+    if (currentStudent) {
+      await studentService.updateStudent(currentStudent._id, formData);
       setIsOpen(false);
+      setCurrentStudent(null);
       fetchStudents();
-    });
+    } else {
+      studentService.createStudent(formData).then(() => {
+        setIsOpen(false);
+        fetchStudents();
+      });
+    }
   };
   const onCancel = () => {
     setIsOpen(false);
@@ -58,7 +72,12 @@ const Student = () => {
     <div>
       Welcome To Students Page
       <Button onClick={onAdd} text={"ADD"} />
-      <Form open={isOpen} onOk={onSubmitStudent} onCancel={onCancel} />
+      <Form
+        open={isOpen}
+        onOk={onSubmitStudent}
+        onCancel={onCancel}
+        student={currentStudent || {}}
+      />
       <Table
         headerColumns={COLUMNS}
         data={studentData}

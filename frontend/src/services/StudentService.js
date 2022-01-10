@@ -9,5 +9,11 @@ class StudentService extends BaseService {
   deleteStudent = (id) => {
     return this.request({ url: `/students/${id}`, type: "DELETE" });
   };
+  updateStudent = (id, body) => {
+    return this.request({ url: `/students/${id}`, type: "PUT", body });
+  };
+  getStudentById = (id) => {
+    return this.request({ url: `/students/${id}` });
+  };
 }
 export default StudentService;

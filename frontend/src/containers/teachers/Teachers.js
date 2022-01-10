@@ -16,6 +16,8 @@ const Teachers = () => {
   const navigate = useNavigate();
   const [isOpen, setIsOpen] = useState(false);
   const [teacherData, setTeacherData] = useState([]);
+  const [currentTeacher, setCurrentTeacher] = useState(null);
+
   useEffect(() => {
     fetchTeachers();
   }, []);
@@ -24,14 +26,36 @@ const Teachers = () => {
     console.log("the teacher", data);
     setTeacherData(data.data);
   };
-  const onClickTeacher = (data) => {
+  // const onClickTeacher = (data) => {
+  //   navigate("/teachers/details", { state: data });
+  // };
+  const onEditTeacher = async ({ _id }) => {
+    const { data } = await teacherSer.getTeacherById(_id);
+    setCurrentTeacher(data.data);
+    setIsOpen(true);
+  };
+  const onDeleteTeacher = async (data) => {
+    console.log("deleted teacher is", data);
+    await teacherSer.deleteTeacher(data._id);
+    fetchTeachers();
+  };
+
+  const onExpandTeacher = (data) => {
+    console.log("the data on expansion is", data);
     navigate("/teachers/details", { state: data });
   };
-  const onSubmit = (formData) => {
-    teacherSer.createTeacher(formData).then(() => {
+  const onSubmit = async (formData) => {
+    if (currentTeacher) {
+      await teacherSer.updateTeacher(currentTeacher._id, formData);
       setIsOpen(false);
+      setCurrentTeacher(null);
       fetchTeachers();
-    });
+    } else {
+      teacherSer.createTeacher(formData).then(() => {
+        setIsOpen(false);
+        fetchTeachers();
+      });
+    }
   };
   const onCancel = () => {
     setIsOpen(false);
@@ -43,11 +67,22 @@ const Teachers = () => {
     <div>
       Welcome to Teachers Page
       <Button onClick={onAdd} text={"ADD"} />
-      <Form open={isOpen} onOk={onSubmit} onCancel={onCancel} />
+      <Form
+        open={isOpen}
+        onOk={onSubmit}
+        onCancel={onCancel}
+        teacher={currentTeacher || {}}
+      />
       <Table
         headerColumns={COLUMN}
         data={teacherData}
-        onRowClick={onClickTeacher}
+        //onRowClick={onClickTeacher}
+        hasActions
+        hasEditAccess
+        onClickEdit={onEditTeacher}
+        hasDeleteAccess
+        onClickDelete={onDeleteTeacher}
+        onClickExpand={onExpandTeacher}
       />
     </div>
   );

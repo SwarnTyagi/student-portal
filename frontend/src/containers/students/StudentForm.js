@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState, useMemo } from "react";
 import Form from "../../components/Form/Form";
 import TextField from "../../components/TextField/TextField";
 import Box from "@mui/material/Box";
@@ -11,9 +11,22 @@ const DEFAULT_FIELDS = {
 };
 
 export default function StudentForm(props) {
-  const { open, onOk, onCancel } = props;
+  const { open, onOk, onCancel, student } = props;
   const [state, setState] = useState(DEFAULT_FIELDS);
   const { name, age, course } = state;
+
+  const studentId = useMemo(() => {
+    return student._id;
+  }, [student._id]);
+
+  useEffect(() => {
+    if (studentId) {
+      setState(student);
+    } else {
+      setState(DEFAULT_FIELDS);
+    }
+  }, [studentId]);
+
   const onSubmitStudent = () => {
     onOk && onOk(state);
   };
