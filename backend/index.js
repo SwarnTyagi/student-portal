@@ -3,9 +3,11 @@ const mongoose = require("mongoose");
 const dotenv = require("dotenv");
 const express = require("express");
 const cors = require("cors");
+const bcrypt = require("bcryptjs");
 const app = express();
 
 const studentRouter = require("./routes/student");
+const permissionRouter = require("./routes/permission");
 const authRouter = require("./routes/auth");
 const userRouter = require("./routes/user");
 const teacherRouter = require("./routes/teacher");
@@ -21,6 +23,7 @@ app.use(bodyParser.json());
 app.use("/students", authenticate, studentRouter);
 app.use("/users", userRouter);
 app.use("/auth", authRouter);
+app.use("/permissions", authenticate, permissionRouter);
 app.use("/teachers", authenticate, teacherRouter);
 const dbPath = "mongodb://localhost:27017/userDatabase";
 

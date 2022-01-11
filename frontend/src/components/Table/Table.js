@@ -10,7 +10,7 @@ import Paper from "@mui/material/Paper";
 import EditIcon from "@mui/icons-material/BorderColor";
 import DeleteIcon from "@mui/icons-material/DeleteForever";
 import { makeStyles } from "@mui/styles";
-import ExpandIcon from "@mui/icons-material/AssignmentReturned";
+import ViewIcon from "@mui/icons-material/AssignmentReturned";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => {
   return {
@@ -52,7 +52,8 @@ const useStyles = makeStyles({
   },
   actionWrapper: {
     display: "flex",
-    justifyContent: "space-between",
+    justifyContent: "space-evenly",
+    alignItems: "center",
   },
 });
 export default function CustomTable({
@@ -65,7 +66,8 @@ export default function CustomTable({
   hasActions = false,
   hasDeleteAccess = false,
   onClickDelete,
-  onClickExpand,
+  onClickView,
+  hasViewAccess = false,
 }) {
   const styles = useStyles();
   const onTableRowClick = (row) => () => {
@@ -105,8 +107,9 @@ export default function CustomTable({
                     hasEditAccess={hasEditAccess}
                     onClickEdit={onClickEdit}
                     hasDeleteAccess={hasDeleteAccess}
+                    hasViewAccess={hasViewAccess}
                     onClickDelete={onClickDelete}
-                    onClickExpand={onClickExpand}
+                    onClickView={onClickView}
                     actionWrapperClass={styles.actionWrapper}
                   />
                 </StyledTableCell>
@@ -125,9 +128,9 @@ export function Actions(props) {
     onClickEdit,
     hasDeleteAccess,
     onClickDelete,
-    onClickExpand,
+    onClickView,
     actionWrapperClass,
-    hasExpandAccess = true,
+    hasViewAccess,
     row,
   } = props;
   const _onClickEdit = () => {
@@ -136,14 +139,14 @@ export function Actions(props) {
   const _onClickDelete = () => {
     onClickDelete && onClickDelete(row);
   };
-  const _onClickExpand = () => {
-    onClickExpand && onClickExpand(row);
+  const _onClickView = () => {
+    onClickView && onClickView(row);
   };
   return (
     <div className={actionWrapperClass}>
       {hasEditAccess ? <EditIcon onClick={_onClickEdit} /> : null}
       {hasDeleteAccess ? <DeleteIcon onClick={_onClickDelete} /> : null}
-      {hasExpandAccess ? <ExpandIcon onClick={_onClickExpand} /> : null}
+      {hasViewAccess ? <ViewIcon onClick={_onClickView} /> : null}
     </div>
   );
 }

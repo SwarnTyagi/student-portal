@@ -2,6 +2,7 @@ const { User } = require("./../models/userModel");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const Joi = require("@hapi/joi");
+const { Permission } = require("./../models/permissionModel");
 
 const registerSchema = Joi.object({
   username: Joi.string().min(3).required(),
@@ -9,15 +10,23 @@ const registerSchema = Joi.object({
   lastname: Joi.string().min(3).required(),
   email: Joi.string().min(6).required(),
   password: Joi.string().min(6).required(),
+  role: Joi.string().min(4).required(),
 });
 
 const loginSchema = Joi.object({
-  username: Joi.string().min(6).required(),
+  username: Joi.string().min(3).required(),
   password: Joi.string().min(6).required(),
 });
 
 exports.register = async (req, res) => {
-  const { email, password = "", username, firstname, lastname } = req.body;
+  const {
+    email,
+    password = "",
+    username,
+    firstname,
+    lastname,
+    role,
+  } = req.body;
   const emailExist = await User.findOne({ email: email });
   if (emailExist) {
     res.status(400).send({
@@ -36,6 +45,7 @@ exports.register = async (req, res) => {
     lastname,
     email,
     password: hashedPassword,
+    role,
   });
 
   try {
@@ -91,10 +101,10 @@ exports.login = async (req, res) => {
     } else {
       console.log("token", process.env.TOKEN_SECRET);
       const token = jwt.sign({ _id: userExist._id }, process.env.TOKEN_SECRET);
-
+      const permissions = await Permission.findOne({ role: userExist.role });
       res.status(200).send({
         message: "successfully logged in",
-        data: { token, userDetails: userExist },
+        data: { token, userDetails: userExist, permissions },
         status: "success",
       });
     }

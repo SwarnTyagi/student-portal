@@ -29,10 +29,11 @@ const Login = () => {
   const onSubmitLogin = () => {
     loginService.login({ username: userName, password }).then((res) => {
       const { data } = res.data;
-      const { token, userDetails } = data;
+      const { token, userDetails, permissions } = data;
       setData("token", token);
       setData("userDetails", JSON.stringify(userDetails));
-      navigate("/teachers");
+      setData("permissions", JSON.stringify(permissions));
+      navigate("/home");
     });
   };
 

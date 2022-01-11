@@ -1,14 +1,12 @@
-import * as React from "react";
+import React, { useState } from "react";
 import { styled, useTheme } from "@mui/material/styles";
 import Box from "@mui/material/Box";
 import Drawer from "@mui/material/Drawer";
 import CssBaseline from "@mui/material/CssBaseline";
 import MuiAppBar from "@mui/material/AppBar";
-import Toolbar from "@mui/material/Toolbar";
 import List from "@mui/material/List";
 import Typography from "@mui/material/Typography";
 import Divider from "@mui/material/Divider";
-import IconButton from "@mui/material/IconButton";
 import MenuIcon from "@mui/icons-material/Menu";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
@@ -20,8 +18,15 @@ import LibraryBooksIcon from "@mui/icons-material/LibraryBooks";
 import EventNoteIcon from "@mui/icons-material/EventNote";
 import HowToRegIcon from "@mui/icons-material/HowToReg";
 import DashboardIcon from "@mui/icons-material/DashboardCustomize";
+import AccountIcon from "@mui/icons-material/AccountCircle";
+import Toolbar from "@mui/material/Toolbar";
+import IconButton from "@mui/material/IconButton";
+import Menu from "@mui/material/Menu";
+import Avatar from "@mui/material/Avatar";
+import Tooltip from "@mui/material/Tooltip";
+import MenuItem from "@mui/material/MenuItem";
 
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 const drawerWidth = 240;
 
 const Main = styled("main", { shouldForwardProp: (prop) => prop !== "open" })(
@@ -84,7 +89,7 @@ export default function PersistentDrawerLeft(props) {
   return (
     <Box sx={{ display: "flex" }}>
       <CssBaseline />
-      <AppBar position="fixed" open={open}>
+      <AppBar position="fixed" open={open} id="student-portal-app-bar">
         <Toolbar>
           <IconButton
             color="inherit"
@@ -98,6 +103,7 @@ export default function PersistentDrawerLeft(props) {
           <Typography variant="h6" noWrap component="div" align="left">
             Student Portal
           </Typography>
+          <UserProfile />
         </Toolbar>
       </AppBar>
       <Drawer
@@ -126,6 +132,11 @@ export default function PersistentDrawerLeft(props) {
         <Divider />
         <List>
           {[
+            {
+              title: "Users",
+              icon: AccountIcon,
+              url: "Users",
+            },
             {
               title: "Dashboard",
               icon: DashboardIcon,
@@ -162,6 +173,71 @@ export default function PersistentDrawerLeft(props) {
         <DrawerHeader />
         <Typography paragraph>{props.children}</Typography>
       </Main>
+    </Box>
+  );
+}
+
+const USER_SETTINGS = [
+  { title: "Profile", url: "/user-profile" },
+  { title: "Dashboard", url: "/home" },
+  { title: "Logout", url: "/login" },
+];
+
+export function UserProfile({ appBarId = "student-portal-app-bar" }) {
+  const [userState, setUserState] = useState(null);
+  const [settings, setSettings] = useState(USER_SETTINGS);
+
+  const navigate = useNavigate();
+  const onOpenUserProfile = (e) => {
+    setUserState(e.currentTarget);
+  };
+
+  const onClickMenuItem = (setting) => {
+    if (setting.url === "/login") {
+      localStorage.clear();
+      navigate(setting.url);
+    } else {
+      navigate(setting.url);
+    }
+  };
+
+  const onCloseUserProfile = () => {
+    setUserState(null);
+  };
+  return (
+    <Box sx={{ flexGrow: 0 }}>
+      <Tooltip title="User Profile">
+        <IconButton onClick={onOpenUserProfile} sx={{ p: 0 }}>
+          <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
+        </IconButton>
+      </Tooltip>
+      <Menu
+        sx={{ mt: "45px" }}
+        id={appBarId}
+        anchorEl={userState}
+        anchorOrigin={{
+          vertical: "top",
+          horizontal: "right",
+        }}
+        keepMounted
+        transformOrigin={{
+          vertical: "top",
+          horizontal: "right",
+        }}
+        open={Boolean(userState)}
+        onClose={onCloseUserProfile}
+      >
+        {settings.map((setting) => (
+          <MenuItem
+            key={setting.title}
+            onClick={() => {
+              onClickMenuItem(setting);
+            }}
+          >
+            <Typography textAlign="center">{setting.title}</Typography>
+          </MenuItem>
+        ))}
+      </Menu>
     </Box>
   );
 }

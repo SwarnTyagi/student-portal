@@ -16,12 +16,7 @@ exports.index = function (req, res) {
 };
 
 exports.add = function (req, res) {
-  var user = new User();
-  user.username = req.body.username ? req.body.username : user.username;
-  user.firstname = req.body.firstname;
-  user.lastname = req.body.lastname;
-  user.email = req.body.email;
-  user.password = req.body.password;
+  var user = new User(req.body);
 
   user.save(function (err) {
     if (err) res.json(err);
@@ -43,11 +38,7 @@ exports.view = function (req, res) {
 exports.update = function (req, res) {
   User.findById(req.params.user_id, function (err, user) {
     if (err) res.send(err);
-    user.username = req.body.username ? req.body.username : user.username;
-    user.firstname = req.body.firstname;
-    user.lastname = req.body.lastname;
-    user.email = req.body.email;
-    user.password = req.body.password;
+    user = { ...user, ...req.body };
 
     user.save(function (err) {
       if (err) res.json(err);
