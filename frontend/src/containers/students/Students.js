@@ -19,11 +19,11 @@ const studentService = new StudentService();
 
 const Student = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const [currentStudent, setCurrentStudent] = useState(null);
   const actions = useActions(studentActions);
-  const { list } = useSelector(({ students }) => {
-    return { list: students.list };
+  const { list, currentStudent } = useSelector(({ students }) => {
+    return { list: students.list, currentStudent: students.studentData };
   });
+
   console.log("the student list is", list);
   const permission = usePermission();
 
@@ -45,24 +45,25 @@ const Student = () => {
   };
 
   const onEditStudent = async ({ _id }) => {
-    const { data } = await studentService.getStudentById(_id);
-    console.log("The student is", data);
-    setCurrentStudent(data.data);
+    actions.getStudent(_id);
+
     setIsOpen(true);
   };
-  const onDeleteStudent = async (data) => {
-    await studentService.deleteStudent(data._id);
-    fetchStudents();
+  const onDeleteStudent = ({ _id }) => {
+    actions.deleteStudent(_id, () => {
+      console.log("Student deleted");
+      fetchStudents();
+    });
   };
   const onExpandStudent = (data) => {
     navigate("/students/details", { state: data });
   };
   const onSubmitStudent = async (formData) => {
     if (currentStudent) {
-      await studentService.updateStudent(currentStudent._id, formData);
-      setIsOpen(false);
-      setCurrentStudent(null);
-      fetchStudents();
+      actions.updateStudent(currentStudent._id, formData, () => {
+        setIsOpen(false);
+        fetchStudents();
+      });
     } else {
       studentService.createStudent(formData).then(() => {
         setIsOpen(false);
@@ -71,6 +72,7 @@ const Student = () => {
     }
   };
   const onCancel = () => {
+    actions.clearCurrentStudent();
     setIsOpen(false);
   };
   const onAdd = () => {
